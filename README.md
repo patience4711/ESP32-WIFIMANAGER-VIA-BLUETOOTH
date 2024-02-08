@@ -21,41 +21,65 @@ The user can connect to the ESP32 using an app on a smartphone, like 'Serial Blu
 of the possible commands and some system information. When we type 'connect' we are prompted for the ssid and password. When connected we can
 see the IP address.
 
-### is this save ###
-My understanding is that only one master can be connected at a time to the ESP32.  So when you connect a.s.p. after the bluetooth becomes active, chances that your neighbour connects first are negligibly small. And if this were to happen unexpectedly, he could not do much harm. So yes i consider this to be save.
+### pswd and security level ###
+These values are set via the bluetooth connection so that only someone that has physical access to our ESP32 can edit them.<br>
+The pswd is used to authenticate visitors of (parts of) the webinterface. 
+
+I like to make my iot even more secure by preventing visiters from outside my network. We can filter this by comparing the visitor's IP to that of our router.<br>
+The securityLevel decides how many characters must match, so if our router is 192.168.0.1 than 192.168.0 is a match when securityLevel = 9.<br>
+coding example: <br>
+```
+// find out if the request comes from inside the network 
+< bool checkRemote(String url) { 
+//check if client ip contains the first 'securityLevel' characters of the router 192.168.0.1 
+    if(securityLevel == 0) return false; // disable filtering
+    if ( url.indexOf(WiFi.gatewayIP().toString().substring(0, securityLevel)) == -1 ) return true; else return false;
+} 
+```
+ 
+### is this save ? ###
+My understanding is that only one master can be connected at a time to the ESP32.  So when you connect a.s.p. after the bluetooth becomes active, chances that your neighbour coincidently connects first are negligibly small. And if this were to happen unexpectedly, not much harm can be done. So yes i consider this to be save.
 
 ### manual start BT ###
 Consider a link in your async webserver that makes a global defined integer 'actionflag' 12<br>
-when we have this in the loop:<br>
-    if (actionFlag == 12) { <br>
-     actionFlag=0;<br>
-     digitalWrite(led_onb, LED_AAN); // the onboard led on<br>
-     SerialBT.begin(getChipId(false)); //Bluetooth device name<br>
-     Serial.printf("\nThe device \"%s\" started.\nYou can pair it with BT!\n", getChipId(false).c_str());<br>
-     connectionLoop();<br>
-    }<br>
+When we'd have this in the loop:<br>
+```
+if (actionFlag == 12) { 
+   actionFlag=0;
+   digitalWrite(led_onb, LED_ON); // the onboard led on
+   SerialBT.begin(getChipId(false)); //Bluetooth device name
+   Serial.printf("\nThe device \"%s\" started.\nYou can pair it with BT!\n", getChipId(false).c_str());
+   connectionLoop();
+}
+```
 the bluetooth is started manually.
 ## how to install it ##
 I suggest to make a tab named BLUETOOTH in arduino IDE. Copy BLUETOOTH.ino there.
 Other things to add:<br>
+```
 #include <WiFi.h><br>
 #include "BluetoothSerial.h"<br>
+#define LED_ON     HIGH   
+#define LED_OFF    LOW
+#define led_onb           2  // onboard led was 2
+
 // blue tooth settings <br>
-uint8_t securityLevel = 6; // to determine how many characters must match the IP and the routers IP<br>
-char pswd[11] = "0000";  // for the login on the webinterface<br>
-unsigned long previousMillis = 0;<br>
-//#define USE_PIN // Uncomment this to use PIN during pairing. The pin is specified on the line below<br>
-//const char *pin = "9999"; // Change this to more secure PIN.<br>
-#if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)<br>
-#error Bluetooth is not enabled! Please run `make menuconfig` to and enable it<br>
-#endif<br>
-#if !defined(CONFIG_BT_SPP_ENABLED)<br>
-  #error Serial Port Profile for Bluetooth is not available or not enabled. It is only available for the ESP32 chip.<br>
-#endif<br>
-BluetoothSerial SerialBT;<br>
+uint8_t securityLevel = 6; // to determine how many characters must match the IP and the routers IP
+char pswd[11] = "0000";  // for the login on the webinterface
+unsigned long previousMillis = 0;
+//#define USE_PIN // Uncomment this to use PIN during pairing. The pin is specified on the line below
+//const char *pin = "9999"; // Change this to more secure PIN.
+#if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
+#error Bluetooth is not enabled! Please run `make menuconfig` to and enable it
+#endif
+#if !defined(CONFIG_BT_SPP_ENABLED)
+  #error Serial Port Profile for Bluetooth is not available or not enabled. It is only available for the ESP32 chip.
+#endif
+BluetoothSerial SerialBT;
 
-void setup() (<br>
-  Serial.begin(115200);<br>
-  start_wifi(); // start wifi and webserver<br>
-
+void setup() (
+  Serial.begin(115200);
+  start_wifi(); // start wifi and webserver
+  etc
+```
 The pswd and sucurityLevel part are instances of how you can use his to set extra values that are important to the security of your system. They can be skipped.   
