@@ -167,7 +167,7 @@ bool handleBT() {
         return false;
     } else
 
-     // **************   security level  *****************************
+     // **************   edit security level  *****************************
      //char pswd[11] = "0000"; globally defined
     if (strncasecmp(InputBuffer_BT,"SECURITY",8) == 0) {
        Serial.println("found SECURITY");
@@ -178,26 +178,24 @@ bool handleBT() {
          SerialBT.println("\n invalid value 0-9");
        } else {
          SerialBT.println("\nsaving securityLevel");
-         wifiConfigsave();
+         // wifiConfigsave(); // define your own save to SPIFFS function
          SerialBT.println("do you want to exit Y/N ?");
          if( confirm_bt() ) return true; // return from handle_BT              
        }
        return false;
     } else
 
-     // **************   admin password   *****************************
+     // **************   edit admin password   *****************************
      if (strncasecmp(InputBuffer_BT,"ADMINPW",7) == 0) {
          Serial.println("found ADMINPW");
          SerialBT.println(F("\please enter your admin password"));
          String temp = readSerial();
-         Serial.println("readSerial done" + temp);
-         temp.toCharArray(pswd, temp.length()+1);
-         Serial.println("rtoCharArray done");
          // save the passwd
          SerialBT.printf("\npasswd = \"%s\", save it Y/N ?" , String(pswd));
          if( confirm_bt() ) {
+            temp.toCharArray(pswd, temp.length()+1);
             SerialBT.println("\nsaving the password");
-            wifiConfigsave();
+            // wifiConfigsave(); // define your save to SPIFFS function
          } 
          return false;
       }
