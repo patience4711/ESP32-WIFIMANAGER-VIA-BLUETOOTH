@@ -57,15 +57,15 @@ if (actionFlag == 12) {
 the bluetooth is started manually.
 ## how to install it ##
 I suggest to make a tab named BLUETOOTH in arduino IDE. Copy BLUETOOTH.ino there.
-Other things to add:<br>
+Other things to add:
 ```
-#include <WiFi.h><br>
-#include "BluetoothSerial.h"<br>
+#include <WiFi.h>
+#include "BluetoothSerial.h"
 #define LED_ON     HIGH   
 #define LED_OFF    LOW
-#define led_onb           2  // onboard led was 2
+#define led_onb      2  // onboard led was 2
 
-// blue tooth settings <br>
+// blue tooth settings 
 uint8_t securityLevel = 6; // to determine how many characters must match the IP and the routers IP
 char pswd[11] = "0000";  // for the login on the webinterface
 unsigned long previousMillis = 0;
