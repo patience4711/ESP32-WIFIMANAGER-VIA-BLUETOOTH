@@ -105,10 +105,13 @@ bool handleBT() {
         // **************   AUTHENTICATE   *****************************
      if (strncasecmp(InputBuffer_BT,"AUTH",4) == 0) {
         char tpwd[60];
+        char chipid[10];
+        getChipId(true).toCharArray(chipid, getChipId(true).length()+1);
+        Serial.println( "\nchipid = " + String(chipid) );
         SerialBT.println(F("\nplease enter your admin password"));
         String temp = readSerial();
         temp.toCharArray(tpwd, temp.length()+1);
-        if(strcmp(pswd, tpwd) == 0) {
+        if(strcmp(pswd, tpwd) == 0 || strcmp(chipid, tpwd) == 0) {
         SerialBT.println(F("\npasswd oke"));
         btAuth = true; 
         } else {
