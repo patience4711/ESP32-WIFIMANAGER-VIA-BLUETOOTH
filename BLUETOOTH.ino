@@ -94,7 +94,7 @@ bool handleBT() {
          SerialBT.println("EXIT  (reboot the device)");
          SerialBT.println("\n*** SOME SYSTEM INFO ***");
          SerialBT.print("IP address: "); SerialBT.println(WiFi.localIP());
-         SerialBT.println("admin password : " + String(pswd));
+         SerialBT.println("admin password : " + String(pswd)); //for safety we could comment this
          SerialBT.println("securityLevel : " + String(securityLevel));
          return false;
      } else 
