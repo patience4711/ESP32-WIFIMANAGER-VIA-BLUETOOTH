@@ -84,7 +84,7 @@ bool handleBT() {
      
      // evaluate the incomming data
 
-     if (strncasecmp(InputBuffer_BT,"INFO",4) == 0) {
+     if (strncasecmp(InputBuffer_BT,"INFO",4) == 0 && btAuth) {
          if( !btAuth ) {
               SerialBT.println(F("\n ** you have no permission! **"));
          return false; 
@@ -122,14 +122,14 @@ bool handleBT() {
      } else
         
         // **************   EXIT   *****************************
-     if (strncasecmp(InputBuffer_BT,"EXIT",4) == 0) {
+     if (strncasecmp(InputBuffer_BT,"EXIT",4) == 0 && btAuth) {
         SerialBT.println(F("\nare you sure to exit Y/N ?"));
         if( confirm_bt() ) return true;
         return false;
      } else
 
     // **************  remove wifi settings   *****************************
-    if (strncasecmp(InputBuffer_BT,"WIPEWIFI", 8) == 0) {
+    if (strncasecmp(InputBuffer_BT,"WIPEWIFI", 8) == 0 && btAuth) {
         SerialBT.println(F("\nare you sure to wipe the wifi Y/N ?)"));
         if( confirm_bt() ) { 
             flush_wifi();
@@ -139,7 +139,7 @@ bool handleBT() {
     } else         
 
     // **************  connect to wifi   *****************************          
-    if (strncasecmp(InputBuffer_BT,"CONNECT",7) == 0) {
+    if (strncasecmp(InputBuffer_BT,"CONNECT",7) == 0 && btAuth) {
       WiFi.mode(WIFI_OFF);
       SerialBT.println(F("\nplease enter your wifi name (ssid)"));
       String temp = readSerial();
@@ -172,7 +172,7 @@ bool handleBT() {
 
      // **************   edit security level  *****************************
      //char pswd[11] = "0000"; globally defined
-    if (strncasecmp(InputBuffer_BT,"SECURITY",8) == 0) {
+    if (strncasecmp(InputBuffer_BT,"SECURITY",8) == 0 && btAuth) {
        Serial.println("found SECURITY");
        SerialBT.println("\nplease enter a value 0-9");
        while(SerialBT.available() == 0) { } // wait for input
@@ -189,7 +189,7 @@ bool handleBT() {
     } else
 
      // **************   edit admin password   *****************************
-     if (strncasecmp(InputBuffer_BT,"ADMINPW",7) == 0) {
+     if (strncasecmp(InputBuffer_BT,"ADMINPW",7) == 0 && btAuth) {
          Serial.println("found ADMINPW");
          SerialBT.println(F("\please enter your admin password"));
          String temp = readSerial();
@@ -203,8 +203,12 @@ bool handleBT() {
          return false;
       }
            
-      // if we are here, there was input but not recognized
-      SerialBT.println(F(" INVALID COMMAND , TYPE INFO or AUTH" ));
+      // if we are here, there was input but not recognized or not permitted
+      if( !btAuth ) {
+           SerialBT.println(F("\n ** you have no permission! **"));
+      } else {
+      SerialBT.println(F(" INVALID COMMAND , TYPE INFO" ));
+      }
       // the buffercontent is not making sense so we empty the buffer
       while(SerialBT.available()) { SerialBT.read(); }     
       return false; // return to the connectionLoop
@@ -219,10 +223,10 @@ String readSerial() {
 }
 // ********************  user input Y or N ******************************
 bool confirm_bt() {
-     if( !btAuth ) {
-     SerialBT.println(F("\n ** you have no permission! **"));
-     return false; 
-     }
+ //    if( !btAuth ) {
+ //    SerialBT.println(F("\n ** you have no permission! **"));
+ //    return false; 
+ //    }
      while(SerialBT.available() == 0) { }
           int tmp = SerialBT.read();
           Serial.println("serialBT.read = " + String(tmp));
