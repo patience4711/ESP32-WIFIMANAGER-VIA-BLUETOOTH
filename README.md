@@ -38,9 +38,11 @@ bool checkRemote(String url) {
 } 
 ```
 ### is this save ? ###
-However i am still looking for a way to authenticate a user via a pin. So far i could not get it to work, the examples of the librabry do not support this.
+I am still looking for a way to prevent unauthorised persons to connect to the BT. This should work with a pin but so far i could not get it to work, the examples of the librabry do not support this.
 So as a workaround, the user can only issue commands when authenticated with the pswd.<br>
-This has a drawback; if you forgot the admin passwd you have to recover it. So i made it possible to authenticate with the chipid also, this is displayed in the serial output at boot.  
+This has a drawback; if you forgot the admin passwd you have to recover it. So i made it possible to authenticate with the chipid also, this is displayed in the serial output at boot.<br>
+If we write this down to our ESP we have it always at hand.<br>
+So someone accidentely connected to our BT can't issue any commands and will be timed out after 5 minutes. I think this is secure enough.  
 ### manual start BT ###
 Consider a link in your async webserver that makes a global defined integer 'actionflag' 12<br>
 When we'd have this in the loop:<br>
