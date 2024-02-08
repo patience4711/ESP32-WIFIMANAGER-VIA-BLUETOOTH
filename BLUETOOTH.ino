@@ -3,7 +3,7 @@
 // ************************************************************************************
 void start_wifi() {
    int event = 0;
-   WiFi.softAPdisconnect(true);
+  // WiFi.softAPdisconnect(true);
    WiFi.mode(WIFI_STA);
    Serial.println("starting wifi ");
    delay(1000);
