@@ -20,16 +20,11 @@ void start_wifi() {
   // if connection failed we enter the connection process  
   if (event > 9) {
     Serial.println("\nWARNING connection failed");
-    digitalWrite(led_onb, LED_AAN); // the onboard led on
+    digitalWrite(led_onb, LED_ON); // the onboard led on
     SerialBT.begin(getChipId(false)); //Bluetooth device name
-    Serial.println("The device started, now you can pair it with bluetooth!");
- //   #ifdef USE_PIN
- //   SerialBT.setPin(pin);
- //   Serial.println("Using PIN");
- //   #endif
-    Serial.printf("\nThe device \"%s\" started.\nYou can pair it with BT!\n", getChipId(false).c_str());
+    Serial.printf("\nThe device %s started.\nYou can pair it with BT!", getChipId(false).c_str());
     // now we wait for the bt input
-    connectionLoop(); // from this we cannot return. it always rsults in a reboot
+    connectionLoop(); // this always results in a reboot to test the connection and make the BT go away
       } else {
      Serial.print("\nconnection success, ip = ");
      SerialBT.disconnect(); // this is not really needed
@@ -139,14 +134,14 @@ bool handleBT() {
            WiFi.begin(sid, pas);// Start Wifi with new values.
            if (connect2Wifi() == WL_CONNECTED) {
                SerialBT.println(F("\nyoupyyyyy, connected!"));
-               digitalWrite(led_onb, LED_UIT);
+               digitalWrite(led_onb, LED_OFF);
                ledblink(3,500);
                SerialBT.println(F("do you want to exit Y/N ?"));
                if( confirm_bt() ) return true;
                return false;
             } else {
                SerialBT.println(F("could not connect, try again"));
-               digitalWrite(led_onb, LED_AAN); // 
+               digitalWrite(led_onb, LED_ON); // 
                return false;
             }
         } 
@@ -252,4 +247,13 @@ String getChipId(bool sec) {
     chipId |= ((ESP.getEfuseMac() >> (40 - i)) & 0xff) << i;
   }
   if(sec) return String(chipId); else return "ESP32-" + String(chipId);
+}
+// flash the led i times, tempo is determined by wait (  
+void ledblink(int i, int wait) {
+  for(int x=0; x<i; x++) {
+    digitalWrite(led_onb, LED_ON);
+    delay(wait);
+    digitalWrite(led_onb, LED_OFF);
+    delay(wait);
+   }
 }
