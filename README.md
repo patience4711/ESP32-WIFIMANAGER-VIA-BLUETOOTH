@@ -24,6 +24,7 @@ see the IP address.
 ## how to install it ##
 I suggest to make a tab named BLUETOOTH in arduino IDE. Copy BLUETOOTH.ino there.
 Other things to add:
+#include <WiFi.h>
 #include "BluetoothSerial.h"
 // blue tooth settings 
 uint8_t securityLevel = 6; // to determine how many characters must match the IP and the routers IP
