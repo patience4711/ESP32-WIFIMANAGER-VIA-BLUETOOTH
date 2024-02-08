@@ -12,14 +12,13 @@ So connecting via bluetooth is a nice alternative which has the following advant
 - can be used to set other system variables like an administrator password
 - The bluetooth doesn't exist in normal operation.
 ## how does this work ##
-When the ESP32 boots, it tries to connect to wifi. When this failes, the bluetooth is initialized and an endless loop is entered.<br>
-this is visible because the blue onboard led is on.<br>
+When the ESP32 boots, it tries to connect to wifi. If this has failed, the bluetooth is initialized and an endless loop is entered.<br>
+This is visible because the blue onboard led is on.<br>
 The program returns (with a reboot) from this loop only when:
 - the loop times out
 - the bluetooth user terminates
 
-The user can connect to the ESP32 using an app on a smartphone, like 'Serial Bluetooth Terminal'. The device has the name ESP32-1234567 (ESP32 + the chipID). When we type 'info', we get an overview
-of the possible commands and some system information. When we type 'connect' we are prompted for the ssid and password. When connected we can
+The user can connect to the ESP32 bluetooth using an app on a smartphone, like 'Serial Bluetooth Terminal'. The device has the name ESP32-123456 (ESP32 + the chipID). When we type 'info', we get an overview of the possible commands and some system information. When we type 'connect' we are prompted for the ssid and password. When connected we can
 see the IP address.
 
 ### pswd and security level ###
