@@ -12,8 +12,9 @@ So connecting via bluetooth is a nice alternative which has the following advant
 - can be used to set other system variables like an administrator password
 - The bluetooth doesn't exist in normal operation.
 ## how does this work ##
-When the ESP32 boots, it tries to connect to wifi. When this failes, the bluetooth is initialized and an endless loop is entered.
-The program returns from this loop only when:
+When the ESP32 boots, it tries to connect to wifi. When this failes, the bluetooth is initialized and an endless loop is entered.<br>
+this is visible because the blue onboard led is on.<br>
+The program returns (with a reboot) from this loop only when:
 - the loop times out
 - the bluetooth user terminates
 
@@ -30,16 +31,15 @@ The securityLevel decides how many characters must match, so if our router is 19
 coding example: <br>
 ```
 // find out if the request comes from inside the network 
-< bool checkRemote(String url) { 
-//check if client ip contains the first 'securityLevel' characters of the router 192.168.0.1 
+bool checkRemote(String url) { 
+//check if client ip contains the first 'securityLevel' characters of the router f.i. 192.168.0.1 
     if(securityLevel == 0) return false; // disable filtering
     if ( url.indexOf(WiFi.gatewayIP().toString().substring(0, securityLevel)) == -1 ) return true; else return false;
 } 
 ```
- 
 ### is this save ? ###
 My understanding is that only one master can be connected at a time to the ESP32.  So when you connect a.s.p. after the bluetooth becomes active, chances that your neighbour coincidently connects first are negligibly small. And if this were to happen unexpectedly, not much harm can be done. So yes i consider this to be save.
-
+However i am still looking for a way to authenticate a user via a pin. So far i could not get it to work, the examples of the librabry do not support this.
 ### manual start BT ###
 Consider a link in your async webserver that makes a global defined integer 'actionflag' 12<br>
 When we'd have this in the loop:<br>
