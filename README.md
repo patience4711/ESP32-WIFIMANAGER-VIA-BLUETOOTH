@@ -30,8 +30,8 @@ Other things to add:
 uint8_t securityLevel = 6; // to determine how many characters must match the IP and the routers IP<br>
 char pswd[11] = "0000";  // for the login on the webinterface<br>
 unsigned long previousMillis = 0;<br>
-#define USE_PIN // Uncomment this to use PIN during pairing. The pin is specified on the line below<br>
-const char *pin = "9999"; // Change this to more secure PIN.<br>
+//#define USE_PIN // Uncomment this to use PIN during pairing. The pin is specified on the line below<br>
+//const char *pin = "9999"; // Change this to more secure PIN.<br>
 #if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)<br>
 #error Bluetooth is not enabled! Please run `make menuconfig` to and enable it<br>
 #endif<br>
