@@ -85,6 +85,9 @@ bool handleBT() {
      // evaluate the incomming data
 
      if (strncasecmp(InputBuffer_BT,"INFO",4) == 0) {
+         if( !btAuth ) {
+              SerialBT.println(F("\n ** you have no permission! **"));
+         return false; 
          scroll(4);
          SerialBT.println("*** AVAILABLE COMMANDS ***");
          SerialBT.println("CONNECT (connect to the wifi)");
@@ -99,7 +102,23 @@ bool handleBT() {
          return false;
      } else 
 
-     // **************   EXIT   *****************************
+        // **************   AUTHENTICATE   *****************************
+     if (strncasecmp(InputBuffer_BT,"AUTH",4) == 0) {
+        char tpwd[60];
+        SerialBT.println(F("\nplease enter your admin password"));
+        String temp = readSerial();
+        temp.toCharArray(tpwd, temp.length()+1);
+        if(strcmp(pswd, tpwd) == 0) {
+        SerialBT.println(F("\npasswd oke"));
+        btAuth = true; 
+        } else {
+        SerialBT.println(F("\nwrong passwd")); 
+        }
+        
+        return false;
+     } else
+        
+        // **************   EXIT   *****************************
      if (strncasecmp(InputBuffer_BT,"EXIT",4) == 0) {
         SerialBT.println(F("\nare you sure to exit Y/N ?"));
         if( confirm_bt() ) return true;
@@ -184,7 +203,7 @@ bool handleBT() {
       }
            
       // if we are here, there was input but not recognized
-      SerialBT.println(F(" INVALID COMMAND , TYPE INFO" ));
+      SerialBT.println(F(" INVALID COMMAND , TYPE INFO or AUTH" ));
       // the buffercontent is not making sense so we empty the buffer
       while(SerialBT.available()) { SerialBT.read(); }     
       return false; // return to the connectionLoop
@@ -199,7 +218,10 @@ String readSerial() {
 }
 // ********************  user input Y or N ******************************
 bool confirm_bt() {
-     char tempchar;
+     if( !btAuth ) {
+     SerialBT.println(F("\n ** you have no permission! **"));
+     return false; 
+     }
      while(SerialBT.available() == 0) { }
           int tmp = SerialBT.read();
           Serial.println("serialBT.read = " + String(tmp));
