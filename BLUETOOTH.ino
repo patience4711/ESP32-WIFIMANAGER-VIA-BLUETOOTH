@@ -23,10 +23,10 @@ void start_wifi() {
     digitalWrite(led_onb, LED_AAN); // the onboard led on
     SerialBT.begin(getChipId(false)); //Bluetooth device name
     Serial.println("The device started, now you can pair it with bluetooth!");
-    #ifdef USE_PIN
-    SerialBT.setPin(pin);
-    Serial.println("Using PIN");
-    #endif
+ //   #ifdef USE_PIN
+ //   SerialBT.setPin(pin);
+ //   Serial.println("Using PIN");
+ //   #endif
     Serial.printf("\nThe device \"%s\" started.\nYou can pair it with BT!\n", getChipId(false).c_str());
     // now we wait for the bt input
     connectionLoop(); // from this we cannot return. it always rsults in a reboot
@@ -206,9 +206,9 @@ String readSerial() {
 bool confirm_bt() {
      char tempchar;
      while(SerialBT.available() == 0) { }
-          tempchar = SerialBT.read();
-          Serial.println("serialBT.read = " + String(tempchar));
-          if(tempchar == 'Y' or tempchar == 'y') {
+          int tmp = SerialBT.read();
+          Serial.println("serialBT.read = " + String(tmp));
+          if(tmp == 'Y' || tmp == 'y') {
               return true;
           } else {
               SerialBT.println(F("\nabort"));
