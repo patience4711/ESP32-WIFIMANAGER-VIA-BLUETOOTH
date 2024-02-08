@@ -38,8 +38,9 @@ bool checkRemote(String url) {
 } 
 ```
 ### is this save ? ###
-My understanding is that only one master can be connected at a time to the ESP32.  So when you connect a.s.p. after the bluetooth becomes active, chances that your neighbour coincidently connects first are negligibly small. And if this were to happen unexpectedly, not much harm can be done. So yes i consider this to be save.
 However i am still looking for a way to authenticate a user via a pin. So far i could not get it to work, the examples of the librabry do not support this.
+So as a workaround, the user can only issue commands when authenticated with the pswd.<br>
+This has a drawback; if you forgot the admin passwd you have to recover it. So i made it possible to authenticate with the chipid also, this is displayed in the serial output at boot.  
 ### manual start BT ###
 Consider a link in your async webserver that makes a global defined integer 'actionflag' 12<br>
 When we'd have this in the loop:<br>
@@ -67,6 +68,7 @@ Other things to add:<br>
 uint8_t securityLevel = 6; // to determine how many characters must match the IP and the routers IP
 char pswd[11] = "0000";  // for the login on the webinterface
 unsigned long previousMillis = 0;
+bool btAuth = false;
 //#define USE_PIN // Uncomment this to use PIN during pairing. The pin is specified on the line below
 //const char *pin = "9999"; // Change this to more secure PIN.
 #if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
@@ -79,6 +81,8 @@ BluetoothSerial SerialBT;
 
 void setup() (
   Serial.begin(115200);
+  delay(200);
+  Serial.println("chipid = " + getChipId(true)); // note this as fallback for the pswd
   start_wifi(); // start wifi and webserver
   etc
 ```
