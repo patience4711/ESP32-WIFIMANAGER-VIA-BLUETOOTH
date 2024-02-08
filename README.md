@@ -24,7 +24,7 @@ see the IP address.
 ### is this save ###
 My understanding is that only one master can be connected at a time to the ESP32.  So when you connect a.s.p. after the bluetooth becomes active, chances that your neighbour connects first are negligibly small. And if this were to happen unexpectedly, he could not do much harm. So yes i consider this to be save.
 
-### manual start ###
+### manual start BT ###
 Consider a link in your async webserver that makes a global defined integer 'actionflag' 12<br>
 when we have this in the loop:<br>
     if (actionFlag == 12) { <br>
