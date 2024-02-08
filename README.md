@@ -21,6 +21,20 @@ The user can connect to the ESP32 using an app on a smartphone, like 'Serial Blu
 of the possible commands and some system information. When we type 'connect' we are prompted for the ssid and password. When connected we can
 see the IP address.
 
+### is this save ###
+My understanding is that only one master can be connected at a time to the ESP32.  So when you connect a.s.p. after the bluetooth becomes active, chances that your neighbour connects first are negligibly small. And if this were to happen unexpectedly, he could not do much harm. So yes i consider this to be save.
+
+### manual start ###
+Consider a link in your async webserver that makes a global defined integer 'actionflag' 12<br>
+when we have this in the loop:<br>
+    if (actionFlag == 12) { <br>
+     actionFlag=0;<br>
+     digitalWrite(led_onb, LED_AAN); // the onboard led on<br>
+     SerialBT.begin(getChipId(false)); //Bluetooth device name<br>
+     Serial.printf("\nThe device \"%s\" started.\nYou can pair it with BT!\n", getChipId(false).c_str());<br>
+     connectionLoop();<br>
+    }<br>
+the bluetooth is started manually.
 ## how to install it ##
 I suggest to make a tab named BLUETOOTH in arduino IDE. Copy BLUETOOTH.ino there.
 Other things to add:
