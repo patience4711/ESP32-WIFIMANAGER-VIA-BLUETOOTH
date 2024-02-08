@@ -23,7 +23,7 @@ see the IP address.
 
 ### pswd and security level ###
 These values are set via the bluetooth connection so that only someone that has physical access to our ESP32 can edit them.<br>
-The pswd is used to authenticate visitors of (parts of) the webinterface. 
+The pswd is used to authenticate visitors of (parts of) the webinterface. It is also used for the login on the BT terminal.
 
 I like to make my iot even more secure by preventing visiters from outside my network. We can filter this by comparing the visitor's IP to that of our router.<br>
 The securityLevel decides how many characters must match, so if our router is 192.168.0.1 than 192.168.0 is a match when securityLevel = 9.<br>
