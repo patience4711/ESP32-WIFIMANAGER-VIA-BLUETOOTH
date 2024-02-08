@@ -11,6 +11,7 @@ So connecting via bluetooth is a nice alternative which has the following advant
 - direct feedback of the IP addres
 - can be used to set other system variables like an administrator password
 - The bluetooth doesn't exist in normal operation.
+- after grid failure it connects automatically when the router is up.
 ## how does this work ##
 When the ESP32 boots, it tries to connect to wifi. If this has failed, the bluetooth is initialized and an endless loop is entered.<br>
 This is visible because the blue onboard led is on.<br>
