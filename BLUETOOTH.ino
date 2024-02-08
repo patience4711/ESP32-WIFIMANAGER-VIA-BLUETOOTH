@@ -32,7 +32,7 @@ void start_wifi() {
     connectionLoop(); // from this we cannot return. it always rsults in a reboot
       } else {
      Serial.print("\nconnection success, ip = ");
-     SerialBT.disconnect(); // this is not rally needed
+     SerialBT.disconnect(); // this is not really needed
      }
    Serial.println("# connection attempts = " + String(event));  
    event=0; // we continue to the rest
@@ -85,15 +85,15 @@ bool handleBT() {
        }  
      Serial.println("InputBuffer_BT =" + String(InputBuffer_BT) );
      Serial.println("length InputBuffer_BT = " + String(strlen(InputBuffer_BT)) );
-     diagNose = 1; // direct the output to serial
+     
      // evaluate the incomming data
 
      if (strncasecmp(InputBuffer_BT,"INFO",4) == 0) {
          scroll(4);
          SerialBT.println("*** AVAILABLE COMMANDS ***");
          SerialBT.println("CONNECT (connect to the wifi)");
-         SerialBT.println("ADMINPW (set admin password)");
-         SerialBT.println("SECURITY (set security level)");
+         SerialBT.println("ADMINPW (set admin password)");  
+         SerialBT.println("SECURITY (set security level)"); 
          SerialBT.println("WIPEWIFI (remove wifi settings)");
          SerialBT.println("EXIT  (reboot the device)");
          SerialBT.println("\n*** SOME SYSTEM INFO ***");
