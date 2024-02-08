@@ -1,8 +1,8 @@
 # ESP32-WIFIMANAGER-VIA-BLUETOOTH
-simple way to connect your iot project to your wifi
+A simple way to connect your ESP32 iot project to your wifi.
 
-I find it handy to get feedback of the IP address when connected to wifi. The existing wifimanagers don't do that<br>
-so i changed wifimanager in such way that it does. Although this works mostly it is not completely reliable. Especially the feedback<br>
+I find it handy to get feedback of the IP address when connected to wifi. The existing wifimanagers didn't do that at the time<br>
+so i changed wifimanager in such way that it does. Although this works most of the time, it is not completely reliable. Especially the feedback<br>
 of the IP address needs wifimode changes which can cause disconnections from the user during the connection process.<br>
 Moreover the whole captive portal software and webpages take a lot of programming space. 
 
