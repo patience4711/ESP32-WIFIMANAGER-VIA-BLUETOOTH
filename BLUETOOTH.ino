@@ -36,6 +36,7 @@ void start_wifi() {
      }
    Serial.println("# connection attempts = " + String(event));  
    event=0; // we continue to the rest
+   // start_server(); // start the webserver
 }
 
 // ************************************************************************************
