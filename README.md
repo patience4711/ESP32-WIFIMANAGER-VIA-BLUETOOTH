@@ -37,7 +37,7 @@ when we have this in the loop:<br>
 the bluetooth is started manually.
 ## how to install it ##
 I suggest to make a tab named BLUETOOTH in arduino IDE. Copy BLUETOOTH.ino there.
-Other things to add:
+Other things to add:<br>
 #include <WiFi.h><br>
 #include "BluetoothSerial.h"<br>
 // blue tooth settings <br>
