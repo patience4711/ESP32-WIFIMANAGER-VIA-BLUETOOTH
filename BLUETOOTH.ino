@@ -21,8 +21,12 @@ void start_wifi() {
   if (event > 9) {
     Serial.println("\nWARNING connection failed");
     digitalWrite(led_onb, LED_ON); // the onboard led on
-    SerialBT.begin(getChipId(false)); //Bluetooth device name
-    Serial.printf("\nThe device %s started.\nYou can pair it with BT!", getChipId(false).c_str());
+    SerialBT.register_callback(btCallback); // for the welcome message
+   if(!SerialBT.begin(getChipId(false))) {
+    Serial.println(F("An error occurred initializing Bluetooth"));
+  } else {
+    Serial.println("Bluetooth initialized " + getChipId(false) + " you can pair now!");
+  }
     // now we wait for the bt input
     connectionLoop(); // this always results in a reboot to test the connection and make the BT go away
       } else {
@@ -287,7 +291,7 @@ void ledblink(int i, int wait) {
 void btCallback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param){
   if(event == ESP_SPP_SRV_OPEN_EVT){
     Serial.println("Bluetooth client Connected");
-    SerialBT.println("Welcome to the ESP32 P1 meter");
+    SerialBT.println("Welcome to the ESP32 Bluetooth"); 
     SerialBT.println("configure your terminal to avoid LF and CR tokens");
     SerialBT.println("type auth to login.");
   }
