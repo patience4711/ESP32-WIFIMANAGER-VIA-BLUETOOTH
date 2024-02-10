@@ -284,3 +284,10 @@ void ledblink(int i, int wait) {
     delay(wait);
    }
 }
+void btCallback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param){
+  if(event == ESP_SPP_SRV_OPEN_EVT){
+    Serial.println("Bluetooth client Connected");
+    SerialBT.println("Welcome to the ESP32 P1 meter");
+    SerialBT.println("configure your terminal to avoid LF and CR tokens");
+    SerialBT.println("type auth to login.");
+  }
