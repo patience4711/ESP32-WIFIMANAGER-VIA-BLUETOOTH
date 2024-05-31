@@ -19,7 +19,10 @@ The program returns (with a reboot) from this loop only when:
 - the loop times out
 - the bluetooth user terminates
 
-The user can connect to the ESP32 bluetooth using an app on a smartphone, like 'Serial Bluetooth Terminal'. The device has the name ESP32-123456 (ESP32 + the chipID). When we type 'info', we get an overview of the possible commands and some system information. When we type 'connect' we are prompted for the ssid and password. When connected we can
+The user can connect to the ESP32 bluetooth using an app on a smartphone, like 'Serial Bluetooth Terminal'. 
+### Please note: you should edit the newlinesettings in the terminal (disable cr and ln). <br>
+
+The device has the name ESP32-123456 (ESP32 + the chipID). When we type 'info', we get an overview of the possible commands and some system information. When we type 'connect' we are prompted for the ssid and password. When connected we can
 see the IP address.
 
 ### pswd and security level ###
